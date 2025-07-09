@@ -1,13 +1,13 @@
 import { useChatStore } from "../store/useChatStore";
 import { useEffect, useRef } from "react";
-
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/util";
+import { ArrowLeft } from "lucide-react";
 
-const ChatContainer = () => {
+const ChatContainer = ({ onBack }) => {
   const {
     messages,
     getMessages,
@@ -21,9 +21,7 @@ const ChatContainer = () => {
 
   useEffect(() => {
     getMessages(selectedUser._id);
-
     subscribeToMessages();
-
     return () => unsubscribeFromMessages();
   }, [
     selectedUser._id,
@@ -41,6 +39,13 @@ const ChatContainer = () => {
   if (isMessagesLoading) {
     return (
       <div className="flex-1 flex flex-col overflow-auto">
+        {/* Mobile Back Button */}
+        <div className="lg:hidden flex items-center gap-2 p-4 border-b border-base-300">
+          <button className="btn btn-sm btn-ghost" onClick={onBack}>
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <span className="font-bold text-lg">Chat</span>
+        </div>
         <ChatHeader />
         <MessageSkeleton />
         <MessageInput />
@@ -50,8 +55,14 @@ const ChatContainer = () => {
 
   return (
     <div className="flex-1 flex flex-col overflow-auto">
+      {/* Mobile Back Button */}
+      <div className="lg:hidden flex items-center gap-2 p-4 border-b border-base-300">
+        <button className="btn btn-sm btn-ghost" onClick={onBack}>
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <span className="font-bold text-lg">Chat</span>
+      </div>
       <ChatHeader />
-
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
