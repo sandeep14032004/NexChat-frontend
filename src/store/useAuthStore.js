@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 const BASE_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:5001"
-    : "https://nexchat-backend.onrender.com";
+    : "https://nexchat-backend-ski0.onrender.com";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
